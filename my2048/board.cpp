@@ -185,15 +185,52 @@ bool Board::cantMerge()
     return true;
 }
 
-void Board::printGameOver()
+std::string Board::printGameOver()
 {
     mvwprintw(playWin, 7, 6, "                     ");
     mvwprintw(playWin, 8, 6, "                     ");
     mvwprintw(playWin, 9, 6, "                     ");
+    mvwprintw(playWin, 10, 6, "                     ");
+    mvwprintw(playWin, 11, 6, "                     ");
 
     mvwprintw(playWin, 7, 12, "GAME OVER");
-    mvwprintw(playWin, 9, 6, "Press Enter to Replay");
+    std::string choices[2] = {" Restart",
+                              "  Quit"};
+    int choice;
+    int highlight = 0;
+
+    while (true)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            if (i == highlight)
+                wattron(playWin, A_REVERSE);
+            mvwprintw(playWin, i + 9, 12, choices[i].c_str());
+            wattroff(playWin, A_REVERSE);
+        }
+
+        choice = wgetch(playWin);
+
+        switch (choice)
+        {
+        case KEY_UP:
+            highlight--;
+            if (highlight == -1)
+                highlight = 0;
+            break;
+        case KEY_DOWN:
+            highlight++;
+            if (highlight == 2)
+                highlight = 1;
+            break;
+        default:
+            break;
+        }
+        if (choice == 10)
+            break;
+    }
     wrefresh(playWin);
+    return choices[highlight];
 }
 
 void Board::unPrintGameOver()
@@ -201,6 +238,8 @@ void Board::unPrintGameOver()
     mvwprintw(playWin, 7, 6, "                     ");
     mvwprintw(playWin, 8, 6, "                     ");
     mvwprintw(playWin, 9, 6, "                     ");
+    mvwprintw(playWin, 10, 6, "                     ");
+    mvwprintw(playWin, 11, 6, "                     ");
     wrefresh(playWin);
 }
 
@@ -215,18 +254,14 @@ bool Board::new2()
 
     if (v1.size() == 0 && cantMerge())
     {
-        printGameOver();
-        while (true)
+        std::string s = printGameOver();
+        if (s == "  Quit")
+            return false;
+        else if (s == " Restart")
         {
-            usrInput = wgetch(playWin);
-            if (usrInput == 'q')
-                return false;
-            else if (usrInput == 10)
-            {
-                unPrintGameOver();
-                startGame();
-                return true;
-            }
+            unPrintGameOver();
+            startGame();
+            return true;
         }
     }
 

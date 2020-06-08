@@ -11,15 +11,19 @@ class Board
 public:
     Board();
 
+    void printMenu();
+    void unPrintMenu();
+
     void outputLog(std::string s);
 
     void startGame();
 
     bool success();
 
-    void printGameOver();
+    std::string printGameOver();
 
     void printOpeningScreen();
+
     void unPrintOpeningScreen();
 
     void unPrintGameOver();

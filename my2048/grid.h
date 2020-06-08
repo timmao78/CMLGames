@@ -54,7 +54,7 @@ public:
             disp = "       ";
 
         mvwprintw(win, m_IndexY * 4 + 2, m_IndexX * 8 + 1, disp.c_str());
-        wrefresh(win);
+        // wrefresh(win);
     }
 
 private:
