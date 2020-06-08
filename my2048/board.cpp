@@ -194,8 +194,8 @@ std::string Board::printGameOver()
     mvwprintw(playWin, 11, 6, "                     ");
 
     mvwprintw(playWin, 7, 12, "GAME OVER");
-    std::string choices[2] = {" Restart",
-                              "  Quit"};
+    std::string choices[2] = {" Restart ",
+                              "  Quit   "};
     int choice;
     int highlight = 0;
 
@@ -209,6 +209,7 @@ std::string Board::printGameOver()
             wattroff(playWin, A_REVERSE);
         }
 
+        wmove(playWin, 0, 0);
         choice = wgetch(playWin);
 
         switch (choice)
@@ -229,7 +230,9 @@ std::string Board::printGameOver()
         if (choice == 10)
             break;
     }
+
     wrefresh(playWin);
+
     return choices[highlight];
 }
 
@@ -255,9 +258,9 @@ bool Board::new2()
     if (v1.size() == 0 && cantMerge())
     {
         std::string s = printGameOver();
-        if (s == "  Quit")
+        if (s == "  Quit   ")
             return false;
-        else if (s == " Restart")
+        else if (s == " Restart ")
         {
             unPrintGameOver();
             startGame();
