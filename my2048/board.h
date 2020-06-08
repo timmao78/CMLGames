@@ -20,6 +20,7 @@ public:
     void printGameOver();
 
     void printOpeningScreen();
+    void unPrintOpeningScreen();
 
     void unPrintGameOver();
 

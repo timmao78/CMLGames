@@ -65,35 +65,29 @@ void Board::outputLog(std::string s)
     }
 }
 
+void Board::unPrintOpeningScreen()
+{
+    for (int i = 1; i < 16; i++)
+        for (int j = 1; j < 32; j++)
+            mvwprintw(playWin, i, j, " ");
+}
+
 void Board::printOpeningScreen()
 {
-    // Initialize board
-    for (int i = 0; i <= 16; i += 1)
-        for (int j = 0; j <= 32; j += 1)
-        {
-            if (i % 4 == 0 && j % 8 == 0)
-                mvwprintw(playWin, i, j, "*");
-            else if ((i != 0 && i != 16 && i % 4 == 0) && j % 8 != 0)
-                mvwprintw(playWin, i, j, "-");
-            else if (i % 4 != 0 && j % 8 == 0 && j != 0 && j != 32)
-                mvwprintw(playWin, i, j, "|");
-        }
+    mvwprintw(playWin, 5, 2, " #####  #####  #   #   ##### ");
+    mvwprintw(playWin, 6, 2, "     #  #   #  #   #   #   # ");
+    mvwprintw(playWin, 7, 2, " #####  #   #  #####   ##### ");
+    mvwprintw(playWin, 8, 2, " #      #   #      #   #   # ");
+    mvwprintw(playWin, 9, 2, " #####  #####      #   ##### ");
 
-    mvwprintw(playWin, 7, 6, "                     ");
-    mvwprintw(playWin, 8, 6, "                     ");
-    mvwprintw(playWin, 9, 6, "                     ");
-
-    mvwprintw(playWin, 7, 15, "2048");
-    mvwprintw(playWin, 9, 6, "Press Enter to Start");
+    mvwprintw(playWin, 12, 6, "Press Enter to Start");
 
     while (true)
     {
         usrInput = wgetch(playWin);
         if (usrInput == 10)
         {
-            mvwprintw(playWin, 7, 6, "                     ");
-            mvwprintw(playWin, 8, 6, "                     ");
-            mvwprintw(playWin, 9, 6, "                     ");
+            unPrintOpeningScreen();
             startGame();
             break;
         }
@@ -131,6 +125,8 @@ void Board::startGame()
     moved = true;
     printScore(score);
     lastOP = "";
+
+    new2();
 }
 
 bool Board::success() { return initSuccess; }
@@ -191,7 +187,6 @@ bool Board::cantMerge()
 
 void Board::printGameOver()
 {
-
     mvwprintw(playWin, 7, 6, "                     ");
     mvwprintw(playWin, 8, 6, "                     ");
     mvwprintw(playWin, 9, 6, "                     ");
@@ -200,6 +195,7 @@ void Board::printGameOver()
     mvwprintw(playWin, 9, 6, "Press Enter to Replay");
     wrefresh(playWin);
 }
+
 void Board::unPrintGameOver()
 {
     mvwprintw(playWin, 7, 6, "                     ");
